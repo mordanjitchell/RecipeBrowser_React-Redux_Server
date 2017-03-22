@@ -1,8 +1,13 @@
-import express from 'express';
+'use strict';
+
+const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/recipes');
 
 app.use(bodyParser.json());
 
@@ -12,28 +17,15 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/recipes', (request, response) => {
-  const recipes = [
-    {
-      _id: 1,
-      label: 'New recipe',
-      image: 'https://www.edamam.com/web-img/8e3/8e37cf891afe7cc4a88807233dafc424.jpg',
-      source: 'Leites Culinaria',
-    }
-  ];
-  return response.json(recipes);
-});
-
-
-app.all('/*', (request, response) => {
-  return response.send(request.params['0']);
-});
+const recipeRoutes = require('../routes/RecipeRoutes');
+app.use(recipeRoutes);
 
 const PORT = 3001;
 
-app.listen(PORT, (err) => {
+app.listen(PORT, function (err) {
   if (err) {
     return console.log('Error!', err);
   }
-  return console.log(`Listening on port: ${PORT}`);
+
+  return console.log('Listening on: http://localhost:' + PORT);
 });

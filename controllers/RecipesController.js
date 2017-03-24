@@ -71,7 +71,7 @@ recipesController.remove = (request, response, next) => {
     return response.json(recipe);
   })
   .catch(err => {
-    return next(err);
+    return next(`this is the ${err}`);
   });
 };
 

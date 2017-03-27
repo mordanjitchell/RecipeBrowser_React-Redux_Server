@@ -23,7 +23,7 @@ app.use(recipeRoutes);
 
 const PORT = 3001;
 
-app.listen (PORT, function (err) {
+app.listen(PORT, function (err) {
   if (err) {
     return console.log('Error!', err);
   }
